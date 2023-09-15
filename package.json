@@ -1,0 +1,12 @@
+{
+  "name": "2029-nodejs-creando-tu-primera-biblioteca",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Harland Lohora",
+  "license": "ISC"
+}
