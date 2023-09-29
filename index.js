@@ -1,13 +1,41 @@
+import fs from "fs"
 import chalk from 'chalk';
 
-console.log(chalk.black.bgMagenta('Hello world!'));
 
-console.log("Hola mundo :)")
+function manejarError(error) {
+    console.log(error)
+    throw new Error(chalk.red(error))
+}
 
-console.log(`La interfaz File nos proporciona información relacionado a archivos que permite a JavaScript poder acceder a su contenido.
 
-Son generalmente generados a partir de un objeto [FileList](https://developer.mozilla.org/en-US/docs/Web/API/FileList), el cuál es el resultado de la selección del archivo dado por el a través el elemento input[<input>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input), a partir del objeto [DataTransfer](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer) utilizado en operaciones Drag and Drop o en español Arrastar y Soltar ó a partir de la API mozGetAsFile() en un [HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
+async function cargarArchivo(rutaArchivo) {
+    try {
+        const encoding = "utf-8"
+        const texto = await fs.promises.readFile(rutaArchivo, encoding)
+        console.log(chalk.green(texto))
+    } catch (error) {
+        manejarError(error)
+    }
+}
 
-[Prueba code 400](https://httpstat.us/404)
-[Gato salchicha](http://gatosalchicha.com.mx/)
-`)
+
+// function cargarArchivo(rutaArchivo) {
+//     const encoding = "utf-8"
+//     fs.promises.readFile(rutaArchivo, encoding)
+//         .then((texto) => console.log(chalk.green(texto)))
+//         .catch((error) => manejarError(error))
+// }
+
+//camino path
+// function cargarArchivo(rutaArchivo) {
+//     const encoding = "utf-8"
+//     fs.readFile(rutaArchivo, encoding, (error, texto) => {
+//         //stacktrace
+//         if (error) {
+//             manejarError(error)
+//         }
+//         console.log(chalk.green(texto))
+//     })
+// }
+
+cargarArchivo("./archivos/texto.m")
