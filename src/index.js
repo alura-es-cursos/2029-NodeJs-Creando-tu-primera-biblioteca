@@ -21,11 +21,13 @@ async function cargarArchivo(rutaArchivo) {
         const encoding = "utf-8"
         const texto = await fs.promises.readFile(rutaArchivo, encoding)
         const resultados = obtenerEnlaces(texto)
-        console.log(resultados)
+        return resultados.length !== 0 ? resultados : "No se encontraron enlaces"
     } catch (error) {
         manejarError(error)
     }
 }
 
-cargarArchivo("./archivos/texto.md")
+export default cargarArchivo
 
+//CLI -> Command Line Interface
+//Source
