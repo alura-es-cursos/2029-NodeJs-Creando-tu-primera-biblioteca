@@ -1,20 +1,30 @@
 import chalk from "chalk"
 import cargarArchivo from "./index.js"
 import fs from "fs"
+import ValidarEnlaces from "./http-valid.js"
 
 const camino = process.argv
 
-function mostrarDatos(datos, archivo) {
-    console.log(
-        chalk.green("Lista de enlaces: "),
-        chalk.black.bgGreen(archivo),
-        datos
-    )
+async function mostrarDatos(validar, datos, archivo) {
+    if (validar) {
+        console.log(
+            chalk.green("Validacion de enlaces: "),
+            chalk.black.bgGreen(archivo),
+            await ValidarEnlaces(datos)
+        )
+    } else {
+        console.log(
+            chalk.green("Lista de enlaces: "),
+            chalk.black.bgGreen(archivo),
+            datos
+        )
+    }
 }
 
 async function procesarTexto(argumentos) {
 
     const camino = argumentos[2]
+    const validate = argumentos[3] === "--validate"
 
     try {
         fs.lstatSync(camino)
@@ -28,12 +38,12 @@ async function procesarTexto(argumentos) {
 
     if (fs.lstatSync(camino).isFile()) {
         const enlaces = await cargarArchivo(camino)
-        mostrarDatos(enlaces, camino)
+        mostrarDatos(validate, enlaces, camino)
     } else if (fs.lstatSync(camino).isDirectory()) {
         const archivos = await fs.promises.readdir(camino)
         archivos.forEach(async (nombreArchivo) => {
             const enlaces = await cargarArchivo(`${camino}${nombreArchivo}`)
-            mostrarDatos(enlaces, `${camino}${nombreArchivo}`)
+            mostrarDatos(validate, enlaces, `${camino}${nombreArchivo}`)
         })
     }
 
